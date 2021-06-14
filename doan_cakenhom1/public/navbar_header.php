@@ -1,13 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['isLogin'])) {
-    header('location:../public/login/login.php');
-} else{
-    $permission = $_SESSION['isLogin'];
-    if ($permission != "User") {
-        header('location:../public/login/login.php');
-    }
-} 
 require_once "config.php";
 require_once "models/db.php";
 require_once "models/product.php";

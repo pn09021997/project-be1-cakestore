@@ -44,7 +44,6 @@ class User extends Db {
     }
 
 
-
     /**____________________________________________________________________________________________________
      * XÓA User THEO id:
      */
@@ -53,6 +52,18 @@ class User extends Db {
         $sql->bind_param("i", $id);
         $sql->execute();
     }
+
+        /**____________________________________________________________________________________________________
+     * Lấy User THEO id:
+     */
+    static function getUserName($id) {
+        $sql = self::$connection->prepare("SELECT * FROM users WHERE id = ?");
+        $sql->bind_param("i", $id);
+        $sql->execute();
+        $item = $sql->get_result()->fetch_assoc();
+        return $item;
+    }
+
 
 
 

@@ -214,6 +214,7 @@ class Product extends Db {
         return $items; //return an array.
     }
     //(SEARCHING + Paging/Pagination) Tìm kiếm sản phẩm và Phân trang:
+    
     static function searchProduct_andCreatePagination($keyword, $page, $resultsPerPage) {
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).

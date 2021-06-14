@@ -1,15 +1,16 @@
 <?php
-require_once "config.php";
-require_once "models/db.php";
-require_once "models/product.php";
-require_once "models/protype.php";
-require_once "models/manufacturer.php";
-$protype = new Protype;
+require_once 'header-require-models.php';
 ?>
 <?php
-    $updateResult = -1;
-    if(isset($_GET['type_name']) == TRUE) {
+$updateResult = -1;
+if (isset($_GET['type_id']) && isset($_GET['type_name'])) {
+    $type_id = $_GET['type_id'];
+    $getAllProduct_ByProtype = Product::getProducts_ByTypeID($type_id);
+    if (count($getAllProduct_ByProtype) == 0) {
         $updateResult = Protype::updateProtype($_GET['type_id'], $_GET['type_name']);
-    }
-    header("Location: form_update.php?functionType=protypes&type_id=" .$_GET['type_id'] ."&updateResult=$updateResult");
+    } 
+    header("Location: form_update.php?functionType=protypes&type_id=" . $_GET['type_id'] . "&updateResult=$updateResult");
+} else {
+    header('./protypes.php');
+}
 ?>

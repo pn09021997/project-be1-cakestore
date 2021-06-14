@@ -8,7 +8,7 @@
                 <li class="divider"></li>
                 <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
                 <li class="divider"></li>
-                <li><a href="" style="background-color:#fff;color:red;"><i class="icon-key"></i> Log Out</a></li>
+                <li><a href="../login/remove_sessionLogin.php" style="background-color:#fff;color:red;"><i class="icon-key"></i> Log Out</a></li>
             </ul>
         </li>
         <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages"
@@ -25,6 +25,6 @@
             </ul>
         </li>
         <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-        <li class=""><a title="" href="logout.php" style="background-color:#fff;color:red;"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+        <li class=""><a title="" href="../login/remove_sessionLogin.php" style="background-color:#fff;color:red;"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
     </ul>
 </div>

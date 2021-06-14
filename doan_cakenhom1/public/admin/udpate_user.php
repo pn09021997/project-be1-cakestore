@@ -3,7 +3,7 @@ require_once 'header-require-models.php';
 ?>
 <?php
     $updateResult = -1;
-    if(isset($_GET['manu_id']) && isset($_GET['manu_name'])) {
+    if(isset($_GET['id']) && isset($_GET['manu_name'])) {
         $manu_id = $_GET['manu_id'];
         $getAllProduct_ByManufacture = Product::getProducts_ByManuID($manu_id);
         if (count($getAllProduct_ByManufacture) == 0) {
