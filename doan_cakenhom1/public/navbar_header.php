@@ -62,7 +62,7 @@ $review = new Review;
                     info@cakebakery.com</a>
             </div>
             <div class="float-right">
-                <form action="search_result.php" method="get" style="float:right!important;margin:9px;">
+                <form action="./cake.php" method="get" style="float:right!important;margin:9px;">
                     <input type="text" name="keyword" placeholder="Search products...">
                     <input type="submit" name="submit" value="Search" class="btn btn-outline-danger">
                 </form>

@@ -118,7 +118,7 @@ $protype = new Protype;
                             if(isset($_GET['functionType']) == TRUE && $_GET['functionType']=="products") {
                         ?>
                             <!-- BEGIN USER FORM -->
-                            <form action="insert_product.php" method="post" class="form-horizontal"
+                            <form action="./insert_product.php" method="post" class="form-horizontal"
                                 enctype="multipart/form-data">
                                 <div class="control-group">
                                     <label class="control-label">Name :</label>
@@ -295,17 +295,21 @@ $protype = new Protype;
                             <div class="control-group">
                                 <label class="control-label">Username:</label>
                                 <div class="controls">
-                                    <input type="text" class="span11" placeholder="Product type" name="username" required /> *
+                                    <input type="text" class="span11" placeholder="Username..." name="username" required /> *
                                 </div>
                                 <label class="control-label">Password:</label>
                                 <div class="controls">
-                                    <input type="text" class="span11" placeholder="Product type" name="password" required /> *
+                                    <input type="password" class="span11" placeholder="Password..." name="password" required /> *
+                                </div>
+                                <label class="control-label">Confirm Password:</label>
+                                <div class="controls">
+                                    <input type="password" class="span11" placeholder="Confirm Password..." name="password2" required /> *
                                 </div>
                                 <label class="control-label">Role:</label>
                                 <div class="controls">
-                                    <select name="role" id="role">
-                                        <option value="1">Super Admin</option>
-                                        <option value="2">Admin</option>
+                                    <select name="permission" id="permission">
+                                        <option value="User">User</option>
+                                        <option value="Admin">Admin</option>
                                     </select> *
                                 </div>
                                

@@ -54,7 +54,12 @@ session_start();
     <!-- main -->
     <div class="main">
         <div class="main-w3l">
-            <h1 class="logo-w3">Login Form</h1>
+            <h1 class="logo-w3">Login Form or
+                <span>
+                    <a href="../index.php"><img src="../img/logo-2.png" alt="" style="transform: translateY(10px);">
+                    </a>
+                </span>
+            </h1>
             <div class="w3layouts-main">
                 <h2><span>Login now</span></h2>
 

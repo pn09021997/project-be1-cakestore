@@ -12,7 +12,7 @@ require_once 'header-require-models.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="images/logo.png" type="image/icon type">
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="css/uniform.css" />
     <link rel="stylesheet" href="css/select2.css" />
@@ -34,25 +34,24 @@ require_once 'header-require-models.php';
             display: flex;
             padding: 10px
         }
+
+        input[value='Search'] {
+            margin-bottom: 10px;
+        }
+        #header >a {
+            margin-left: 50px;
+        }
     </style>
 </head>
 
 <body>
     <!--Header-part-->
     <div id="header">
-        <h1><a href="index.php"><img src="images/logo.png" alt=""></a></h1>
+        <a href="index.php"><img src="../img/logo.png" alt=""></a>
     </div>
     <!--close-Header-part-->
     <!--top-Header-menu-->
     <?php require_once "element_navbar.php"; ?>
-    <!--start-top-serch-->
-    <div id="search">
-        <form action="./search-product.php" method="get">
-            <input type="text" name="keyword" placeholder="Search products...">
-            <input type="submit" name="submit" value="Search" class="btn btn-outline-danger">
-        </form>
-    </div>
-    <!--close-top-serch-->
     <!--sidebar-menu-->
     <div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
         <ul>

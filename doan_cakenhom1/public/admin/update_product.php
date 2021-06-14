@@ -21,8 +21,16 @@ if (isset($_POST['id']) == TRUE) {
     $description = $_POST['description'];
     $feature = $_POST['feature'];
     $create_at = (new DateTime('now'))->format('Y-m-d H:i:s');
-
-    $updateResult = Product::updateProduct($id, $name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at);
+    $getAllProduct = Product::getAllProducts();
+    $flag = true;
+    foreach ($getAllProduct as $value) {
+        if ($value['name'] == $name || $value['description'] == $description) {
+            $flag = false;
+        }
+    }
+    if ($flag == true) {
+        $updateResult = Product::updateProduct($id, $name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at);
+    }
 }
 
 // Nếu sửa thành công, thì upload file:
@@ -59,10 +67,8 @@ if ($changeImage = TRUE) {
         //Kiểm tra xem có phải là ảnh bằng hàm getimagesize
         $check = getimagesize($_FILES["fileUpload"]["tmp_name"]);
         if ($check !== false) {
-            echo "Đây là file ảnh - " . $check["mime"] . ".";
             $allowUpload = true;
         } else {
-            echo "Không phải file ảnh.";
             $allowUpload = false;
         }
     }
@@ -70,35 +76,20 @@ if ($changeImage = TRUE) {
     // Kiểm tra nếu file đã tồn tại thì không cho phép ghi đè
     // Bạn có thể phát triển code để lưu thành một tên file khác
     if (file_exists($target_file)) {
-        echo "Tên file đã tồn tại trên server, không được ghi đè";
         $allowUpload = false;
     }
     // Kiểm tra kích thước file upload cho vượt quá giới hạn cho phép
     if ($_FILES["fileUpload"]["size"] > $maxfilesize) {
-        echo "Không được upload ảnh lớn hơn $maxfilesize (bytes).";
         $allowUpload = false;
     }
 
 
     // Kiểm tra kiểu file
     if (!in_array($imageFileType, $allowtypes)) {
-        echo "Chỉ được upload các định dạng JPG, PNG, JPEG, GIF";
         $allowUpload = false;
     }
-
-
     if ($allowUpload) {
-        // Xử lý di chuyển file tạm ra thư mục cần lưu trữ, dùng hàm move_uploaded_file
-        if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
-            echo "File " . basename($_FILES["fileUpload"]["name"]) .
-                " Đã upload thành công.";
-
-            echo "File lưu tại " . $target_file;
-        } else {
-            header("Location: form_update.php?functionType=products&id=$id&updateResult=$updateResult");
-        }
-    } else {
-        header("Location: form_update.php?functionType=products&id=$id&updateResult=$updateResult");
+        $updateResult = move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file);
     }
 }
 

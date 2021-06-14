@@ -227,7 +227,7 @@
                             $selectedUser = User::getUserName($_GET['id']);
                         ?>
                             <!-- BEGIN USER FORM -->
-                            <form action="update_user.php" method="get" class="form-horizontal" enctype="multipart/form-data">
+                            <form action="./udpate_user.php" method="get" class="form-horizontal" enctype="multipart/form-data">
                                 <div class="control-group">
                                     <label class="control-label">User ID :</label>
                                     <div class="controls">
@@ -249,13 +249,13 @@
                                 <div class="control-group">
                                     <label class="control-label">New Password :</label>
                                     <div class="controls">
-                                        <input type="text" name="newpassword">
+                                        <input type="password" name="newpassword">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label">Confirm Password :</label>
                                     <div class="controls">
-                                        <input type="text" name="password2">
+                                        <input type="password" name="password2">
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -263,11 +263,11 @@
                                     <div class="controls">
                                         <select name="permission" id="permission">
                                             <?php if ($selectedUser['permission'] == 'User'){?>
-                                            <option value="user" selected>User</option>
-                                            <option value="admin">Admin</option>
+                                            <option value="User" selected>User</option>
+                                            <option value="Admin">Admin</option>
                                             <?php } else {?>
-                                            <option value="user">User</option>
-                                            <option value="admin" selected>Admin</option>
+                                            <option value="User">User</option>
+                                            <option value="Admin" selected>Admin</option>
                                             <?php }?>
                                         </select>
                                     </div>

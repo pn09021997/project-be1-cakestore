@@ -115,4 +115,23 @@ class Manufacturer extends Db {
         }
         return $firstLink . $prevLink . $links . $nextLink . $lastLink;
     }
+
+    static function searchManufacture($keyword) {
+        $sql = self::$connection->prepare("SELECT * FROM manufactures WHERE manu_name like '%$keyword%'");
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
+
+    static function searchManufacture_andCreatePagination($keyword, $page, $resultsPerPage) {
+        //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
+        $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
+        //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
+        $sql = self::$connection->prepare("SELECT * FROM manufactures WHERE manu_name like '%$keyword%' LIMIT $firstLink, $resultsPerPage");
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
 }

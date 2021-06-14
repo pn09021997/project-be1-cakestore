@@ -64,6 +64,15 @@ class User extends Db {
         return $item;
     }
 
+    /**____________________________________________________________________________________________________
+     * SỬA USER:
+     */
+    static function updateUser($id, $username, $password, $permission) {
+        $sql = self::$connection->prepare("UPDATE users SET `username`=?,`password`=?,`permission`=? WHERE id=?");
+        $sql->bind_param("sssi", $username, $password, $permission, $id);
+        return $sql->execute();
+    }
+
 
 
 
@@ -122,5 +131,25 @@ class User extends Db {
             }
         }
         return $firstLink . $prevLink . $links . $nextLink . $lastLink;
+    }
+
+    static function searchUser($keyword)
+    {
+        $sql = self::$connection->prepare("SELECT * FROM users WHERE username like '%$keyword%'");
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
+
+    static function searchUser_andCreatePagination($keyword, $page, $resultsPerPage) {
+        //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
+        $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
+        //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
+        $sql = self::$connection->prepare("SELECT * FROM users WHERE username like '%$keyword%' LIMIT $firstLink, $resultsPerPage");
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
     }
 }

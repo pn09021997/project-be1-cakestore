@@ -35,8 +35,13 @@
                         $page = $_GET['page'];
                     }
                     $resultsPerPage = 4;
-                    $totalResults = count(Product::getAllProducts());
-                    $list_of_products = Product::getAllProducts_andCreatePagination($page, $resultsPerPage);
+                    if (isset($_GET['keyword'])) {
+                        $list_of_products = Product::searchProduct_andCreatePagination($_GET['keyword'], $page, $resultsPerPage);
+                        $totalResults = count(Product::searchProduct($_GET['keyword']));
+                    } else {
+                        $list_of_products = Product::getAllProducts_andCreatePagination($page, $resultsPerPage);
+                        $totalResults = count(Product::getAllProducts());
+                    }
 
                     // Output:
                   
@@ -58,14 +63,15 @@
                 <?php }?>
             </div>
         </div>
-        <div>
-            <div style="text-align:center; padding:30px;">
-                <?php
-                    echo Product::paginate("cake.php?", $page, $totalResults, $resultsPerPage, 2);
-                    // echo Product::paginate($_SERVER['PHP_SELF'] . "?", $page, $totalResults, $resultsPerPage, 2);
-                ?>
-            </div>
-        </div>
+        <div style="text-align:center;">
+        <?php
+        if (isset($_GET['keyword']) == TRUE) {
+            echo Product::paginate("cake.php?keyword=" . $_GET['keyword'] . "&", $page, $totalResults, $resultsPerPage, 2);
+        } else {
+            echo Product::paginate("cake.php?", $page, $totalResults, $resultsPerPage, 1);
+        }
+        ?>
+    </div>
     </section>
     <!--================End Blog Main Area =================-->
 

@@ -2,15 +2,33 @@
 require_once 'header-require-models.php';
 ?>
 <?php
-    $updateResult = -1;
-    if(isset($_GET['id']) && isset($_GET['manu_name'])) {
-        $manu_id = $_GET['manu_id'];
-        $getAllProduct_ByManufacture = Product::getProducts_ByManuID($manu_id);
-        if (count($getAllProduct_ByManufacture) == 0) {
-            $updateResult = Manufacturer::updateManufacturer($_GET['manu_id'], $_GET['manu_name']);
+$updateResult = -1;
+if (isset($_GET['id']) && isset($_GET['username']) && isset($_GET['newpassword']) && isset($_GET['password2']) && isset($_GET['password']) && isset($_GET['permission'])) {
+    echo "True";
+    $id = $_GET['id'];
+    $username = $_GET['username'];
+    $old_Password = $_GET['password'];
+    $new_Password = str_replace(" ", "", $_GET['newpassword']);
+    $confirm_Password = $_GET['password2'];
+    $permission = $_GET['permission'];
+    if (empty($new_Password)) {
+        $getAllUser = User::getAllUsers();
+        $flag = true;
+        foreach ($getAllUser as $value) {
+            if ($value['username'] == $username) {
+                $flag = false;
+            }
         }
-        header("Location: form_update.php?functionType=manufacturers&manu_id=" .$_GET['manu_id'] ."&updateResult=$updateResult");
+        if ($flag == true) {
+            $updateResult = User::updateUser($id, $username, $old_Password, $permission);
+        }
+        header("Location: form_update.php?functionType=user&id=" . $_GET['id'] . "&updateResult=$updateResult");
     } else {
-        header('./manufactures.php');
+        if ($new_Password == $confirm_Password) {
+            $updateResult = User::updateUser($id, $username, $new_Password, $permission);
+        }
+        header("Location: form_update.php?functionType=user&id=" . $_GET['id'] . "&updateResult=$updateResult");
     }
-?>
+} else {
+    header('location:./users.php');
+}
