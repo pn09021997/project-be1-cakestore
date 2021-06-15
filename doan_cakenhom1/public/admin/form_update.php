@@ -25,7 +25,7 @@
                             $selectedProduct = Product::getProduct_ByID($_GET['id']);
                         ?>
                             <!-- BEGIN USER FORM -->
-                            <form action="update_product.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                            <form action="update_product.php" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                 <div class="control-group">
                                     <label class="control-label">ID :</label>
                                     <div class="controls">

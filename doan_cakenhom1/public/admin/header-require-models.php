@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['isLogin'])) {
-    header('../login/login.php');
+    header('location:../login/login.php');
 } else {
     $permission = $_SESSION['isLogin'];
     if ($permission != "Admin") {
-        header('../login/login.php');
+        header('location:../login/login.php');
     }
 }
 

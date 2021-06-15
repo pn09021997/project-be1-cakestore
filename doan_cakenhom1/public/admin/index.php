@@ -1,4 +1,5 @@
-<?php require_once 'header.php' ?>
+<?php
+require_once 'header.php' ?>
 <!-- BEGIN CONTENT -->
 <div id="content">
     <div id="content-header">

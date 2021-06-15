@@ -19,7 +19,7 @@ class Manufacturer extends Db {
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM manufacturers  order by manu_id desc LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM manufactures  order by manu_id desc LIMIT $firstLink, $resultsPerPage");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -31,7 +31,7 @@ class Manufacturer extends Db {
      * LẤY Manufacturer THEO id:
      */
     static function getBrand($manu_id) {
-        $sql = self::$connection->prepare("SELECT * FROM manufacturers  WHERE manu_id = ?");
+        $sql = self::$connection->prepare("SELECT * FROM manufactures  WHERE manu_id = ?");
         $sql->bind_param("i", $manu_id);
         $sql->execute();
         $brand = $sql->get_result()->fetch_assoc();
@@ -44,7 +44,7 @@ class Manufacturer extends Db {
      * XÓA Manufacturer THEO id:
      */
     static function deleteManufactureByID($manu_id) {
-        $sql = self::$connection->prepare("DELETE FROM manufacturers  WHERE manu_id = ?");
+        $sql = self::$connection->prepare("DELETE FROM manufactures  WHERE manu_id = ?");
         $sql->bind_param("i", $manu_id);
         $sql->execute();
     }
@@ -55,7 +55,7 @@ class Manufacturer extends Db {
      * THÊM Manufacturer:
      */
     static function insertManufacturer($manu_name) {
-        $sql = self::$connection->prepare("INSERT INTO manufacturers (manu_id, manu_name) VALUES(0, '$manu_name')");
+        $sql = self::$connection->prepare("INSERT INTO manufactures (manu_id, manu_name) VALUES(0, '$manu_name')");
         return $sql->execute();
     }
 
@@ -65,7 +65,7 @@ class Manufacturer extends Db {
      * SỬA MANU:
      */
     static function updateManufacturer($manu_id, $manu_name) {
-        $sql = self::$connection->prepare("UPDATE manufacturers  SET manu_name='$manu_name' WHERE manu_id=$manu_id");
+        $sql = self::$connection->prepare("UPDATE manufactures  SET manu_name='$manu_name' WHERE manu_id=$manu_id");
         return $sql->execute();
     }
 
@@ -114,5 +114,24 @@ class Manufacturer extends Db {
             }
         }
         return $firstLink . $prevLink . $links . $nextLink . $lastLink;
+    }
+
+    static function searchManufacture($keyword) {
+        $sql = self::$connection->prepare("SELECT * FROM manufactures WHERE manu_name like '%$keyword%'");
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
+
+    static function searchManufacture_andCreatePagination($keyword, $page, $resultsPerPage) {
+        //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
+        $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
+        //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
+        $sql = self::$connection->prepare("SELECT * FROM manufactures WHERE manu_name like '%$keyword%' LIMIT $firstLink, $resultsPerPage");
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
     }
 }

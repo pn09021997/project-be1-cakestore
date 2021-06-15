@@ -1,7 +1,6 @@
 <?php
+
 require_once 'header-require-models.php';
-// var_dump($manufacturer->getAllManufacturers());
-// var_dump(Protype::getAllProtypes());
 ?>
 
 <!DOCTYPE html>
