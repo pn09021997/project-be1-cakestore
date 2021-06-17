@@ -10,11 +10,11 @@ if (isset($_POST['login'])) {
         if (count($getUserLogin) != 0) {
             if ($getUserLogin[0]['password'] == md5($_POST['password'])) {
                 if ($getUserLogin[0]['permission'] == "Admin") {
-                    $_SESSION['isLogin']["Admin"] = $getUserLogin[0]['id'];
+                    $_SESSION['isLogin'] = "Admin";
                     header('location:../admin/index.php');
                 }
                 if ($getUserLogin[0]['permission'] == "User") {
-                    $_SESSION['isLogin']["User"] = $getUserLogin[0]['id'];
+                    $_SESSION['isLogin'] = "User";
                     header('location:../index.php');
                 }
             } else {

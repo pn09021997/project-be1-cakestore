@@ -1,7 +1,12 @@
 <?php
 session_start();
-if (!isset($_SESSION['isLogin']['Admin'])) {
+if (!isset($_SESSION['isLogin'])) {
     header('location:../login/login.php');
+} else {
+    $permission = $_SESSION['isLogin'];
+    if ($permission != "Admin") {
+        header('location:../login/login.php');
+    }
 }
 
 require_once "config.php";

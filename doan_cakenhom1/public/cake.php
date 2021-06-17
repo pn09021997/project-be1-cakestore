@@ -35,20 +35,13 @@
                         $page = $_GET['page'];
                     }
                     $resultsPerPage = 4;
-                    $list_of_products = Product::getAllProducts_andCreatePagination($page, $resultsPerPage);
-                    $totalResults = count(Product::getAllProducts());
                     if (isset($_GET['keyword'])) {
                         $list_of_products = Product::searchProduct_andCreatePagination($_GET['keyword'], $page, $resultsPerPage);
                         $totalResults = count(Product::searchProduct($_GET['keyword']));
-                    } 
-                    if (isset($_GET['manu_id'])) {
-                        $list_of_products = Product::getProducts_ByManuIdAndCreatePagination($_GET['manu_id'], $page, $resultsPerPage);
-                        $totalResults = count(Product::getProducts_ByManuID($_GET['manu_id']));
-                    } 
-                    if (isset($_GET['type_id'])) {
-                        $list_of_products = Product::getProducts_ByTypeID_andCreatePagination($_GET['type_id'], $page, $resultsPerPage);
-                        $totalResults = count(Product::getProducts_ByTypeID($_GET['type_id']));
-                    } 
+                    } else {
+                        $list_of_products = Product::getAllProducts_andCreatePagination($page, $resultsPerPage);
+                        $totalResults = count(Product::getAllProducts());
+                    }
 
                     // Output:
                   
@@ -62,7 +55,7 @@
                         </div>
                         <div class="cake_text">
                             <h4><?php echo $value['price'];?></h4>
-                            <h3><a href="product-details.php?id=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></h3>
+                            <h3 ><a href="product-details.php?id=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></h3>
                             <a class="pest_btn" href="add-cart.php?id=<?php echo $value['id'];?>">Add to cart</a>
                         </div>
                     </div>
@@ -72,17 +65,11 @@
         </div>
         <div style="text-align:center;">
         <?php
-        $paginate = Product::paginate("cake.php?", $page, $totalResults, $resultsPerPage, 1);
-        if (isset($_GET['keyword'])) {
-            $paginate = Product::paginate("cake.php?keyword=" . $_GET['keyword'] . "&", $page, $totalResults, $resultsPerPage, 2);
+        if (isset($_GET['keyword']) == TRUE) {
+            echo Product::paginate("cake.php?keyword=" . $_GET['keyword'] . "&", $page, $totalResults, $resultsPerPage, 2);
+        } else {
+            echo Product::paginate("cake.php?", $page, $totalResults, $resultsPerPage, 1);
         }
-        if (isset($_GET['manu_id'])) {
-            $paginate = Product::paginate("cake.php?manu_id=" . $_GET['manu_id'] . "&", $page, $totalResults, $resultsPerPage, 2);
-        }
-        if (isset($_GET['type_id'])) {
-            $paginate = Product::paginate("cake.php?type_id=" . $_GET['type_id'] . "&", $page, $totalResults, $resultsPerPage, 2);
-        }
-        echo $paginate;
         ?>
     </div>
     </section>
