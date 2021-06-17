@@ -56,7 +56,6 @@ require_once "navbar_header.php";
             <div class="row">
                 <div class="col-lg-6">
                     <div class="main_title">
-                        <?php var_dump($_SESSION); ?>
                         <h2>Welcome to our Bakery</h2>
                         <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
                             nisi ut aliquid ex ea commodi consequatur uis autem vel eum.</p>

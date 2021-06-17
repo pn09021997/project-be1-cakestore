@@ -1,10 +1,6 @@
-<?php
-session_start();
-
-?>
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Space Login Form Flat Responsive Widget Template :: w3layouts</title>
 
