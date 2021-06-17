@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['isLogin']['Admin'])) {
+    header('location:../login/login.php');
+}
 class Review extends Db {
 
 
@@ -28,12 +31,24 @@ class Review extends Db {
     }
 
 
+    
+    static function getLatestReview()
+    {
+        $sql = self::$connection->prepare("(SELECT * FROM reviews ORDER BY created_at DESC LIMIT 0,3)");
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
+
 
     /**____________________________________________________________________________________________________
      * THÊM REVIEW:
      */
     static function insertReview($product_id, $reviewer_name, $reviewer_email, $content) {
-        $sql = self::$connection->prepare("INSERT INTO reviews VALUES(NULL, $product_id, '$reviewer_name', '$reviewer_email', '$content')");
+        $sql = self::$connection->prepare("INSERT INTO reviews (product_id, reviewer_name, reviewer_email, content)
+        VALUES (?, ?, ?, ?)");
+        $sql->bind_param('isss', $product_id, $reviewer_name, $reviewer_email, $content);
         return $sql->execute();
     }
 
@@ -63,22 +78,22 @@ class Review extends Db {
         // Trường hợp để xuất hiện $firstLink, $lastLink, $prevLink, $nextLink:
         if($page > 1) {
             $prev = $page - 1;
-            $prevLink = "<a style=\"padding:15px;margin:0 5px;box-shadow: 5px 5px 8px #888888;border-radius:10%;\" href='$url" . "page=$prev'><</a>";
-            $firstLink = "<a style=\"padding:15px;margin:0 5px;box-shadow: 5px 5px 8px #888888;border-radius:10%;\" href='$url" . "page=1'><<</a>";
+            $prevLink = "<a style=\"padding:10px;\" href='$url" . "page=$prev'>< Previous</a>";
+            $firstLink = "<a style=\"padding:10px;\" href='$url" . "page=1'><< First</a>";
         }
         if($page < $totalLinks) {
             $next = $page + 1;
-            $nextLink = "<a style=\"padding:15px;margin:0 5px;box-shadow: 5px 5px 8px #888888;border-radius:10%;\" href='$url" . "page=$next'>></a>";
-            $lastLink = "<a style=\"padding:15px;margin:0 5px;box-shadow: 5px 5px 8px #888888;border-radius:10%;\" href='$url" . "page=$totalLinks'>>></a>";
+            $nextLink = "<a style=\"padding:10px;\" href='$url" . "page=$next'>Next ></a>";
+            $lastLink = "<a style=\"padding:10px;\" href='$url" . "page=$totalLinks'>Last >></a>";
         }
         // $links:
         for($i=$from; $i<=$to; $i++) {
             if($page == $i) {
-                $links = $links . "<a style=\"padding:15px;margin:0 5px;text-decoration:underline;color:red;font-weight:bold;box-shadow: 5px 5px 8px #888888;border-radius:10%;\" href='$url" . "page=$i'>$i</a>";
+                $links = $links . "<a style=\"padding:10px;text-decoration:underline;color:red;font-weight:bold;\" href='$url" . "page=$i'>$i</a>";
             }
             else
             {
-                $links = $links . "<a style=\"padding:15px;margin:0 5px;box-shadow: 5px 5px 8px #888888;border-radius:10%;\" href='$url" . "page=$i'>$i</a>";
+                $links = $links . "<a style=\"padding:10px;\" href='$url" . "page=$i'>$i</a>";
             }
         }
         return $firstLink . $prevLink . $links . $nextLink . $lastLink;

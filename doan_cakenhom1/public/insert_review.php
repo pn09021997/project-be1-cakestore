@@ -8,8 +8,10 @@ require_once "models/review.php";
 $review = new Review;
 ?>
 <?php
-    if(isset($_POST['product_id']) == TRUE) {
+    if(isset($_POST['product_id'])) {
         $insertResult = Review::insertReview($_POST['product_id'], $_POST['reviewer_name'], $_POST['reviewer_email'], $_POST['content']);
+    } else {
+        echo "1";
     }
     header("Location: product-details.php?id=" . $_POST['product_id']);
 ?>

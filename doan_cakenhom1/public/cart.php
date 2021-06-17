@@ -36,7 +36,7 @@ require_once "navbar_header.php";
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-cart">
                     <?php
                     if (isset($_SESSION['cart']) == TRUE) {
                         foreach ($_SESSION['cart'] as $item => $detail) {
@@ -44,7 +44,7 @@ require_once "navbar_header.php";
                     ?>
                             <tr>
                                 <td class="product-thumbnail">
-                                    <a href="product-details.php?id=<?php echo $product['id']; ?>"><img style="width:50%;height:auto;" alt="poster_1_up" class="shop_thumbnail" src="img/cake-feature/<?php echo $product['pro_image']; ?>"></a>
+                                    <a href="product-details.php?id=<?php echo $product['id']; ?>"><img style="width:100%;height:auto;" alt="poster_1_up" class="shop_thumbnail" src="img/cake-feature/<?php echo $product['pro_image']; ?>"></a>
                                 </td>
                                 <td class="product-name">
                                     <a href="product-details.php?id=<?php echo $product['id']; ?>"><?php echo $product['name']; ?></a>
@@ -55,9 +55,9 @@ require_once "navbar_header.php";
                                 </td>
                                 <td class="product-quantity text-center">
                                     <div class="quantity buttons_added">
-                                        <a href="add-cart.php?id=m<?= $item ?>" class="btn btn-outline-info">-</a>
+                                        <a href="add-cart.php?id=m<?= $item ?>" class="btn btn-outline-info" style="float: left">-</a>
                                         <span class="product-quantity"><?php echo $detail ?></span>
-                                        <a href="add-cart.php?id=p<?= $item ?>" class="btn btn-outline-info">+</a>
+                                        <a href="add-cart.php?id=p<?= $item ?>" class="btn btn-outline-info" style="float: right">+</a>
                                     </div>
                                 </td>
                                 <td class="product-subtotal">

@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['isLogin']['Admin'])) {
+    header('location:../login/login.php');
+}
 class User extends Db {
     //LOGIN.
     public function login($username) {

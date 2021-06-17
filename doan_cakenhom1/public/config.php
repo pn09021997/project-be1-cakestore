@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['isLogin']['Admin'])) {
+    header('location:./login/login.php');
+}
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'cake' );
 /** MySQL database username */

@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['isLogin']['Admin'])) {
+    header('location:../login/login.php');
+}
 class Product extends Db
 {
 
@@ -41,6 +44,26 @@ class Product extends Db
         return $items; //return an array.
     }
 
+
+    static function getLatestProducts_ByManuId($manu_id, $product_id)
+    {
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE manu_id = ? AND id <> ? ORDER BY created_at DESC LIMIT 0,3");
+        $sql->bind_param("ii", $manu_id, $product_id);
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
+
+    static function getLatestProducts_ByTypeId($type_id, $product_id)
+    {
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE type_id = ? AND id <> ? ORDER BY created_at DESC LIMIT 0,3");
+        $sql->bind_param("ii", $type_id, $product_id);
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
 
 
     /**____________________________________________________________________________________________________
@@ -112,41 +135,13 @@ class Product extends Db
         return $items; //return an array.
     }
     //Lấy ra các sản phẩm cùng một hãng và Phân trang:
-    static function getProducts_ByManuID_andCreatePagination($manu_id, $page, $resultsPerPage)
+    static function getProducts_ByManuIdAndCreatePagination($manu_id, $page, $resultsPerPage)
     {
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE manu_id = ? LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE manu_id = ? order by created_at desc LIMIT $firstLink, $resultsPerPage");
         $sql->bind_param("i", $manu_id);
-        $sql->execute();
-        $items = array();
-        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
-        return $items; //return an array.
-    }
-
-
-
-    /**____________________________________________________________________________________________________
-     * LẤY DANH SÁCH SẢN PHẨM THEO type_id và manu_id:
-     */
-    static function getProducts_ByTypeAndManu($type_id, $manu_id)
-    {
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE type_id like ? AND manu_id like ?");
-        $sql->bind_param("ii", $type_id, $manu_id);
-        $sql->execute();
-        $items = array();
-        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
-        return $items; //return an array.
-    }
-    //Lấy ra các sản phẩm cùng một hãng và Phân trang:
-    static function getProducts_ByTypeAndManu_andCreatePagination($type_id, $manu_id, $page, $resultsPerPage)
-    {
-        //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
-        $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
-        //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE type_id like ? AND manu_id like ? LIMIT $firstLink, $resultsPerPage");
-        $sql->bind_param("ii", $type_id, $manu_id);
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
