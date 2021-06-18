@@ -72,13 +72,13 @@ require_once "navbar_header.php";
         <div class="product_tab_area" role="tabpanel">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-review" role="tab" aria-controls="nav-home" aria-selected="true" readonly>REVIEWS (<?php echo $totalReviews; ?>)</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-addreview" role="tab" aria-controls="nav-contact" aria-selected="false">ADD REVIEW</a>
+                    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">REVIEWS (<?php echo $totalReviews; ?>)</a>
+                    <a class="nav-item nav-link active" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="true">ADD REVIEW</a>
                 </div>
             </nav>
 
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-review" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="tab-pane fade show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="reviews">
                         <div class="review">
                             <div class="container pt-2 text-dark">
@@ -107,7 +107,7 @@ require_once "navbar_header.php";
                     </div>
                 </div>
 
-                <div class="tab-pane fade show " id="nav-addreview" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="tab-pane fade show active" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                     <h2>Reviews</h2>
                     <form action="insert_review.php" method="POST">
                         <div class="submit-review">
