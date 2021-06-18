@@ -50,6 +50,11 @@ class Review extends Db {
         return $sql->execute();
     }
 
+    static function removeReview_ById($product_id) {
+        $sql = self::$connection->prepare("DELETE FROM reviews WHERE product_id = $product_id");
+        return $sql->execute();
+    }
+
 
 
     /**____________________________________________________________________________________________________

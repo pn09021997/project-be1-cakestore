@@ -104,6 +104,11 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
+                                            <label class="control-label">Receipt :</label>
+                                            <div class="controls">
+                                            <input type="number" class="span11" name="receipt" min="1" value="<?php echo $selectedProduct['receipt']; ?>" required />                                            </div>
+                                        </div>
+                                        <div class="control-group">
                                             <label class="control-label">Feature :</label>
                                             <div class="controls">
                                                 <input type="number" class="span11" name="feature" min="0" max="1" value="<?php echo $selectedProduct['feature']; ?>" required /> *

@@ -50,7 +50,9 @@
                                 foreach ($list_of_protypes as $key => $value) {
                                 ?>
                                     <tr class="">
-                                        <td><?php echo $value['type_name']; ?></td>
+                                        <td>
+                                            <h5><?php echo $value['type_name']; ?></h5>
+                                        </td>
 
                                         <td>
                                             <a href="form_update.php?functionType=protypes&type_id=<?php echo $value['type_id']; ?>" class="btn btn-success btn-mini">Edit</a>

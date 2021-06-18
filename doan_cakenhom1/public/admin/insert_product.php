@@ -67,7 +67,14 @@ if (isset($_POST['submit']) == TRUE) {
 // Thêm dữ liệu vào CSDL: Nếu upload được ảnh thì mới insert.
 if ($check_Upload) {
     $insertResult = -1;
-    if (isset($_POST['name']) == TRUE) {
+    if (
+        isset($_POST['name'])
+        && isset($_POST['type_id'])
+        && isset($_POST['price'])
+        && isset($_POST['description'])
+        && isset($_POST['feature'])
+        && isset($_POST['receipt'])
+    ) {
         $name = $_POST['name'];
         $manu_id = $_POST['manu_id'];
         $type_id = $_POST['type_id'];
@@ -75,6 +82,7 @@ if ($check_Upload) {
         $pro_image = $_FILES['fileUpload']['name'];
         $description = $_POST['description'];
         $feature = $_POST['feature'];
+        $receipt = $_POST['receipt'];
         $create_at = (new DateTime('now'))->format('Y-m-d H:i:s');
         $getAllProduct = Product::getAllProducts();
         $flag = true;
@@ -84,11 +92,11 @@ if ($check_Upload) {
             }
         }
         if ($flag == true) {
-            $insertResult = Product::insertProduct($name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at);
-        } 
+            $insertResult = Product::insertProduct($name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at, $receipt);
+        }
     }
     header("Location: form.php?functionType=products&insertResult=$insertResult");
-}else {
+} else {
     header('location:./index.php');
 }
 ?>

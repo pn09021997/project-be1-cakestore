@@ -1,4 +1,4 @@
-<?php session_start(); 
+<?php session_start();
 require_once "../config.php";
 require_once "../models/db.php";
 require_once "../models/user.php";
@@ -73,9 +73,16 @@ $user = new User;
                     } else {
                         echo "<h3 class='text-danger'>Fail Register</h3>";
                     }
+                } else if (isset($_GET['login'])) {
+                    $login = $_GET['login'];
+                    if ($login == -1) {
+                        echo "<h3 class='text-danger'>Fail Login</h3>";
+                    }
                 } else {
                     echo "<h3>---</h3>";
                 }
+
+
                 ?>
                 <form action="./check-login-register.php" method="POST">
                     <?php

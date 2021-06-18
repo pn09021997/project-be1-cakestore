@@ -4,8 +4,9 @@ require_once 'header-require-models.php';
 
 if (isset($_GET['messageid'])) {
     $messageId = $_GET['messageid'];
-    if (isset($_GET['id'])) {
+    if (isset($_GET['id']) && isset($_GET['qty'])) {
         $id = $_GET['id'];
+        $qty = $_GET['qty'];
         if ($id[0] == 'c' || $id[0] == 'u') {
             $newId = substr($id, 1, strlen($id));
             switch ($id[0]) {
@@ -14,7 +15,10 @@ if (isset($_GET['messageid'])) {
                     if (count($getOrder_ByProductId) != 0) {
                         $orderId = $getOrder_ByProductId[0]['orderid'];
                         $productId = $getOrder_ByProductId[0]['productid'];
-                        $removeProduct_ById = OrderDetail::removeProduct_ById($orderId, $productId);
+                        $receipt = Product::getProduct_ByID($productId)[0]['receipt'];
+                        if ($qty < $receipt) {
+                            $removeProduct_ById = OrderDetail::removeProduct_ById($orderId, $productId);
+                        }
                     }
                     header('location:./message.php?message=' . $messageId);
                     break;
@@ -48,6 +52,6 @@ if (isset($_GET['messageid'])) {
                 }
             }
         }
-        header('location:./message.php?message='.$listMessage[0]);
+        header('location:./message.php?message=' . $listMessage[0]);
     }
 }

@@ -6,6 +6,7 @@ include_once "../models/user.php";
 include_once "../models/order.php";
 $userInfo = new User();
 if (isset($_POST['login'])) {
+    $login = -1;
     if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['permission'])) {
         $getUserLogin = User::getUserLogin($_POST['username'], $_POST['permission']);
         if (count($getUserLogin) != 0) {
@@ -19,10 +20,10 @@ if (isset($_POST['login'])) {
                     header('location:../index.php');
                 }
             } else {
-                header('location:./login.php');
+                header('location:./login.php?login='.$login);
             }
         } else {
-            header('location:./login.php');
+            header('location:./login.php?login='.$login);
         }
     }
 } else if (isset($_POST['register'])) {

@@ -82,7 +82,7 @@ require_once "navbar_header.php";
             </div>
             <div class="cake_feature_slider owl-carousel">
                 <?php
-                $list_of_latestProducts = Product::getLatestProducts(6);
+                $list_of_latestProducts = Product::getLatestProducts(9);
                 foreach ($list_of_latestProducts as $key => $value) {
                 ?>
                     <div class="item">

@@ -35,7 +35,7 @@ class Product extends Db
      */
     static function getLatestProducts($number_of_records)
     {
-        $sql = self::$connection->prepare("SELECT * FROM products ORDER BY created_at DESC LIMIT 0,$number_of_records");
+        $sql = self::$connection->prepare("SELECT * FROM products ORDER BY created_at ASC LIMIT 0,$number_of_records");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);

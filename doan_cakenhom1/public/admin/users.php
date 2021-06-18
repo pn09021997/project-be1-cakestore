@@ -49,44 +49,27 @@
                                 }
                                 // Output:
                                 echo "<p style=\"text-align:center;\"><b>There are $totalResults results.</b></p>";
-                                if (isset($_SESSION['users']) && $_SESSION['users']['permission'] == 1) {
-                                    foreach ($list_of_users as $key => $value) {
+                                foreach ($list_of_users as $key => $value) {
+                                    // if($_SESSION['users']['id'] == $value['id']){
                                 ?>
-                                        <tr class="">
-                                            <td><?php echo $value['username']; ?></td>
-                                            <td><?php echo $value['password']; ?></td>
-                                            <td><?php if ($value['permission'] == "Admin") {
-                                                    echo "Admin";
-                                                } else {
-                                                    echo "User";
-                                                } ?></td>
-                                            <td>
-                                                <a href="form_update.php?functionType=user&user_id=<?php echo $value['id']; ?>" class="btn btn-success btn-mini">Edit</a>
-                                                <a href="delete-user.php?id=<?php echo $value['id']; ?>" class="btn btn-danger btn-mini">Delete</a>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                } else {
-                                    foreach ($list_of_users as $key => $value) {
-                                        // if($_SESSION['users']['id'] == $value['id']){
-                                    ?>
-                                        <tr class="">
-                                            <td><?php echo $value['username']; ?></td>
-                                            <td><?php echo $value['password']; ?></td>
-                                            <td><?php if ($value['permission'] == "Admin") {
-                                                    echo "Admin";
-                                                } else {
-                                                    echo "User";
-                                                } ?></td>
-                                            <td>
-                                                <a href="form_update.php?functionType=user&id=<?php echo $value['id']; ?>" class="btn btn-success btn-mini">Edit</a>
-                                                <a href="delete-user.php?id=<?php echo $value['id']; ?>" class="btn btn-danger btn-mini">Delete</a>
-                                            </td>
-                                        </tr>
+                                    <tr class="">
+                                        <td>
+                                            <h5><?php echo $value['username']; ?></h5>
+                                        </td>
+                                        <td><h5><?php echo $value['password']; ?></h5></td>
+                                        <td><?php if ($value['permission'] == "Admin") {
+                                                echo "<h5>Admin</h5>";   
+                                            } else {
+                                                echo "<h5>User</h5>";
+                                            } ?></td>
+                                        <td>
+                                            <a href="form_update.php?functionType=user&id=<?php echo $value['id']; ?>" class="btn btn-success btn-mini">Edit</a>
+                                            <a href="delete-user.php?id=<?php echo $value['id']; ?>" class="btn btn-danger btn-mini">Delete</a>
+                                        </td>
+                                    </tr>
                                 <?php
-                                    }
-                                } ?>
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>

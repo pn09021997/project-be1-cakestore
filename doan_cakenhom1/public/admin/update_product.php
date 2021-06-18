@@ -79,7 +79,14 @@ if ($changeImage == TRUE) {
 
 if ($check_Upload) {
     $updateResult = -1;
-    if (isset($_POST['id']) == TRUE) {
+    if (
+        isset($_POST['name'])
+        && isset($_POST['type_id'])
+        && isset($_POST['price'])
+        && isset($_POST['description'])
+        && isset($_POST['feature'])
+        && isset($_POST['receipt'])
+    ) {
         $id = $_POST['id'];
         $name = $_POST['name'];
         $manu_id = $_POST['manu_id'];
@@ -87,9 +94,12 @@ if ($check_Upload) {
         $price = $_POST['price'];
         $description = $_POST['description'];
         $feature = $_POST['feature'];
+        $receipt = $_POST['receipt'];
         $create_at = (new DateTime('now'))->format('Y-m-d H:i:s');
         $getAllProduct = Product::getAllProducts();
-        $updateResult = Product::updateProduct($id, $name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at);
+        $updateResult = Product::updateProduct($id, $name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at, $receipt);
         header("Location: form_update.php?functionType=products&id=$id&updateResult=$updateResult");
+    } else {
+        echo "dads";
     }
 }

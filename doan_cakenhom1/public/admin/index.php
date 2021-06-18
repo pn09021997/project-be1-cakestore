@@ -34,6 +34,7 @@ require_once 'header.php' ?>
                                     <th>Description</th>
                                     <th>Price (VND)</th>
                                     <th>Feature</th>
+                                    <th>Receipt</th>
                                     <th>Created at</th>
                                     <th>Action</th>
                                 </tr>
@@ -53,7 +54,7 @@ require_once 'header.php' ?>
                                     if ($keyWord != ' ') {
                                         $list_of_products = Product::searchProduct_andCreatePagination($_GET['keyword'], $page, $resultsPerPage);
                                         $totalResults = count(Product::searchProduct($_GET['keyword']));
-                                    } 
+                                    }
                                 }
                                 // Output:
                                 echo "<p style=\"text-align:center;\"><b>There are $totalResults results.</b></p>";
@@ -63,13 +64,24 @@ require_once 'header.php' ?>
                                         <td width=250>
                                             <img src="../img/cake-feature/<?= $value['pro_image']; ?>" alt="">
                                         </td>
-                                        <td><?php echo $value['name']; ?></td>
-                                        <td><?php echo Manufacturer::getBrand($value['manu_id']); ?></td>
-                                        <td><?php echo Protype::getTypeName($value['type_id']); ?></td>
-                                        <td><?php echo $value['description']; ?></td>
-                                        <td><?php echo number_format($value['price']); ?></td>
-                                        <td><?php echo $value['feature']; ?></td>
-                                        <td><?php echo $value['created_at']; ?></td>
+                                        <td>
+                                            <h5><?php echo $value['name']; ?></h5>
+                                        </td>
+                                        <td>
+                                            <h5><?php echo Manufacturer::getBrand($value['manu_id']); ?></h5>
+                                        </td>
+                                        <td>
+                                            <h5><?php echo Protype::getTypeName($value['type_id']); ?></h5>
+                                        </td>
+                                        <td>
+                                            <h5><?php echo $value['description']; ?></h5>
+                                        </td>
+                                        <td>
+                                            <h5><?php echo number_format($value['price']); ?></h5>
+                                        </td>
+                                        <td> <h5><?php echo $value['feature']; ?></h5></td>
+                                        <td> <h5><?php echo $value['receipt']; ?></h5></td>
+                                        <td> <h5><?php echo $value['created_at']; ?></h5></td>
                                         <td>
                                             <a href="form_update.php?functionType=products&id=<?php echo $value['id']; ?>" class="btn btn-success btn-mini">Edit</a>
                                             <a href="delete_product.php?id=<?php echo $value['id']; ?>" class="btn btn-danger btn-mini">Delete</a>

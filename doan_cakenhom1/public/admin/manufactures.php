@@ -50,7 +50,7 @@
                                 foreach ($list_of_manufacturers as $key => $value) {
                                 ?>
                                     <tr class="">
-                                        <td><?php echo $value['manu_name']; ?></td>
+                                        <td><h5><?php echo $value['manu_name']; ?></h5></td>
                                         <td>
                                             <a href="form_update.php?functionType=manufacturers&manu_id=<?php echo $value['manu_id']; ?>" class="btn btn-success btn-mini">Edit</a>
                                             <a href="delete-manufacture.php?manu_id=<?php echo $value['manu_id']; ?>" class="btn btn-danger btn-mini">Delete</a>

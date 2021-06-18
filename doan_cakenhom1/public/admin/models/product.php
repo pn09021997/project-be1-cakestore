@@ -21,7 +21,7 @@ class Product extends Db
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM products order by created_at desc LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM products order by receipt DESC LIMIT $firstLink, $resultsPerPage");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -35,7 +35,7 @@ class Product extends Db
      */
     static function getLatestProducts($number_of_records)
     {
-        $sql = self::$connection->prepare("SELECT * FROM products ORDER BY created_at DESC LIMIT 0,$number_of_records");
+        $sql = self::$connection->prepare("SELECT * FROM products ORDER BY create_at DESC LIMIT 0,$number_of_records");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -45,7 +45,7 @@ class Product extends Db
 
     static function getLatestProducts_ByManuId($manu_id, $product_id)
     {
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE manu_id = ? AND id <> ? ORDER BY created_at DESC LIMIT 0,3");
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE manu_id = ? AND id <> ?  order by receipt DESC LIMIT 0,3");
         $sql->bind_param("ii", $manu_id, $product_id);
         $sql->execute();
         $items = array();
@@ -55,7 +55,7 @@ class Product extends Db
 
     static function getLatestProducts_ByTypeId($type_id, $product_id)
     {
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE type_id = ? AND id <> ? ORDER BY created_at DESC LIMIT 0,3");
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE type_id = ? AND id <> ?  order by receipt DESC LIMIT 0,3");
         $sql->bind_param("ii", $type_id, $product_id);
         $sql->execute();
         $items = array();
@@ -97,7 +97,7 @@ class Product extends Db
      */
     static function getAllFeaturedProducts()
     {
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE feature = 1 ORDER BY price");
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE feature = 1  order by receipt DESC");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -138,7 +138,7 @@ class Product extends Db
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE manu_id = ? order by created_at desc LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE manu_id = ?  order by receipt DESC LIMIT $firstLink, $resultsPerPage");
         $sql->bind_param("i", $manu_id);
         $sql->execute();
         $items = array();
@@ -166,7 +166,7 @@ class Product extends Db
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE type_id = ? LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE type_id = ?  order by receipt DESC LIMIT $firstLink, $resultsPerPage");
         $sql->bind_param("i", $type_id);
         $sql->execute();
         $items = array();
@@ -191,9 +191,9 @@ class Product extends Db
     /**____________________________________________________________________________________________________
      * THÊM SẢN PHẨM:
      */
-    static function insertProduct($name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at)
+    static function insertProduct($name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at, $receipt)
     {
-        $sql = self::$connection->prepare("INSERT INTO products(id, name, manu_id, type_id, price, pro_image, description, feature, created_at) VALUES(0, '$name', $manu_id, $type_id, $price, '$pro_image', '$description', $feature, '$create_at')");
+        $sql = self::$connection->prepare("INSERT INTO products(id, name, manu_id, type_id, price, pro_image, description, feature, created_at, receipt) VALUES(0, '$name', $manu_id, $type_id, $price, '$pro_image', '$description', $feature, '$create_at', '$receipt')");
         return $sql->execute();
     }
 
@@ -202,9 +202,9 @@ class Product extends Db
     /**____________________________________________________________________________________________________
      * SỬA SẢN PHẨM:
      */
-    static function updateProduct($id, $name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at)
+    static function updateProduct($id, $name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at, $receipt)
     {
-        $sql = self::$connection->prepare("UPDATE products SET name='$name', manu_id=$manu_id, type_id=$type_id, price=$price, pro_image='$pro_image', description='$description', feature=$feature, created_at='$create_at' WHERE id=$id");
+        $sql = self::$connection->prepare("UPDATE products SET name='$name', manu_id=$manu_id, type_id=$type_id, price=$price, pro_image='$pro_image', description='$description', feature=$feature, created_at='$create_at', receipt= $receipt WHERE id=$id");
         return $sql->execute();
     }
 
@@ -229,7 +229,7 @@ class Product extends Db
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM products WHERE name like '%$keyword%' LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM products WHERE name like '%$keyword%' ORDER BY created_at ASC LIMIT $firstLink, $resultsPerPage");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);

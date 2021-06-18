@@ -75,20 +75,45 @@
                                 <?php
                                 foreach ($listOrder as $key => $value) {
                                     $product = Product::getProduct_ByID($value['productid']);
+                                    if ($product['receipt'] < $value['quantity']) {
                                 ?>
-                                    <tr>
-                                        <td width=250><img src="../img/cake-feature/<?php echo $product['pro_image']; ?>" alt=""></td>
-                                        <td><?php echo $product['name']; ?></td>
-                                        <td><?php echo $value['quantity']; ?></td>
-                                        <td>
-                                            <?php echo number_format($value['price']); ?>
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <a href="./check_order.php?id=c<?= $value['productid'] ?>&messageid=<?= $orderId ?>" class="btn btn-success btn-mini">Check</a>
-                                            <a href="./check_order.php?id=u<?= $value['productid'] ?>&messageid=<?= $orderId ?>" class="btn btn-danger btn-mini" target="_blank">UnCheck</a>
-                                        </td>
-                                    </tr>
+                                        <tr style="color: red">
+                                            <td width=250><img src="../img/cake-feature/<?php echo $product['pro_image']; ?>" alt=""></td>
+                                            <td>
+                                                <h5><?php echo $product['name']; ?></h5>
+                                            </td>
+                                            <td>
+                                                <h5><?php echo $value['quantity']; ?></h5>
+                                            </td>
+                                            <td>
+                                                <h5><?php echo number_format($value['price']); ?></h5>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <a href="./check_order.php?id=c<?= $value['productid'] ?>&messageid=<?= $orderId ?>&qty=<?= $value['quantity']; ?>" class="btn btn-success btn-mini">Send Email</a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <tr>
+                                            <td width=250><img src="../img/cake-feature/<?php echo $product['pro_image']; ?>" alt=""></td>
+                                            <td>
+                                                <h5><?php echo $product['name']; ?></h5>
+                                            </td>
+                                            <td>
+                                                <h5><?php echo $value['quantity']; ?></h5>
+                                            </td>
+                                            <td>
+                                                <h5><?php echo number_format($value['price']); ?></h5>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <a href="./check_order.php?id=c<?= $value['productid'] ?>&messageid=<?= $orderId ?>&qty=<?= $value['quantity']; ?>" class="btn btn-success btn-mini">Check</a>
+                                                <a href="./check_order.php?id=u<?= $value['productid'] ?>&messageid=<?= $orderId ?>&qty=<?= $value['quantity']; ?>" class="btn btn-danger btn-mini" target="_blank">UnCheck</a>
+                                            </td>
+
+                                        </tr>
                         <?php
+                                    }
                                 }
                             }
                         }
@@ -97,7 +122,7 @@
                         </table>
                     </div>
                     <div style="text-align: center; padding-top: 20px">
-                        <a href="./check_order.php?messageid=<?= $orderId?>" class="btn btn-success btn-large">Check All</a> 
+                        <a href="./check_order.php?messageid=<?= $orderId ?>" class="btn btn-success btn-large">Check All</a>
                     </div>
                 </div>
                 <?php
