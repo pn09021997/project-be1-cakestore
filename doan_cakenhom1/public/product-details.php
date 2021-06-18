@@ -6,6 +6,7 @@ if (!isset($_SESSION['isLogin']['User'])) {
 if (!isset($_GET['id'])) {
     header('location:' . $_SERVER['HTTP_REFERER']);
 }
+
 require_once "navbar_header.php";
 
 ?>

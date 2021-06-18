@@ -10,7 +10,7 @@ class User extends Db {
         return $items; //return an array
     }
     
-    public function getUserLogin($username, $permission)
+    static function getUserLogin($username, $permission)
     {
         //2. Viết câu SQL
         $sql = parent::$connection->prepare("SELECT * FROM users WHERE permission = ? AND username = ?");

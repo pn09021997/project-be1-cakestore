@@ -1,6 +1,12 @@
-<?php session_start();?>
+<?php session_start(); 
+require_once "../config.php";
+require_once "../models/db.php";
+require_once "../models/user.php";
+$user = new User;
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Space Login Form Flat Responsive Widget Template :: w3layouts</title>
 
@@ -59,9 +65,28 @@
             <div class="w3layouts-main">
                 <h2><span>Login now</span></h2>
 
-                <h3>---</h3>
+                <?php
+                if (isset($_GET['register'])) {
+                    $register = $_GET['register'];
+                    if ($register == 1) {
+                        echo "<h3 class='text-success'>Success Register</h3>";
+                    } else {
+                        echo "<h3 class='text-danger'>Fail Register</h3>";
+                    }
+                } else {
+                    echo "<h3>---</h3>";
+                }
+                ?>
                 <form action="./check-login-register.php" method="POST">
-                    <input placeholder="Username or Email" name="username" type="text" required="">
+                    <?php
+                    if (isset($_GET['id'])) {
+                        $idUser = $_GET['id'];
+                        $username = User::getUserName($idUser)['username'];
+                        echo "<input placeholder='Username or Email' name='username' type='text' required='' value='$username'>";
+                    } else {
+                        echo '<input placeholder="Username or Email" name="username" type="text" required="">';
+                    }
+                    ?>
                     <input placeholder="Password" name="password" type="password" required="">
                     <br>
                     <select name="permission" id="permission">

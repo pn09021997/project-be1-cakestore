@@ -22,10 +22,10 @@ class OrderDetail extends Db
     }
 
     
-    static function getOrder_ByProductId($productId)
+    static function getOrder_Product($productId, $orderId)
     {
-        $sql = self::$connection->prepare("SELECT * FROM ordersdetail WHERE productid = ?");
-        $sql->bind_param('i', $productId);
+        $sql = self::$connection->prepare("SELECT * FROM ordersdetail WHERE productid = ? AND orderid = ?");
+        $sql->bind_param('ii', $productId, $orderId);
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -39,15 +39,15 @@ class OrderDetail extends Db
         return $sql->execute();
     }
 
-    static function updateCart($productId, $quantity, $price)
+    static function updateCart($orderId, $productId, $quantity, $price)
     {
-        $sql = self::$connection->prepare("UPDATE ordersdetail SET quantity = $quantity, price = $price WHERE productid = $productId");
+        $sql = self::$connection->prepare("UPDATE ordersdetail SET quantity = $quantity, price = $price WHERE productid = $productId AND orderid = $orderId");
         return $sql->execute();
     }
 
-    static function removeProduct_ById($productId)
+    static function removeProduct_ById($orderId, $productId)
     {
-        $sql = self::$connection->prepare("DELETE FROM ordersdetail WHERE productid = $productId");
+        $sql = self::$connection->prepare("DELETE FROM ordersdetail WHERE productid = $productId AND orderid = $orderId");
         return $sql->execute();
     }
 

@@ -31,30 +31,30 @@ if (isset($_SESSION['isLogin']['User'])) {
                     $getOrder_ByOrderId = OrderDetail::getOrder_ByOrderId($orderId);
                     foreach ($getOrder_ByOrderId as $value) {
                         if ($value['productid'] == $newId) {
-                            $removeProduct_ById =  OrderDetail::removeProduct_ById($newId);
+                            $removeProduct_ById =  OrderDetail::removeProduct_ById($orderId, $newId);
                         }
                     }
                     break;
                 case 'm':
-                    $getOrder_ByProductId = OrderDetail::getOrder_ByProductId($newId);
+                    $getOrder_ByProductId = OrderDetail::getOrder_Product($newId, $orderId);
                     $qty = $getOrder_ByProductId[0]['quantity'];
                     if ($qty == 1) {
-                        $removeProduct_ById =  OrderDetail::removeProduct_ById($newId);
+                        $removeProduct_ById =  OrderDetail::removeProduct_ById($orderId, $newId);
                     } else {
                         $oldQuantity = $getOrder_ByProductId[0]['quantity'];
                         $price = $product1['price'];
                         $newTolalPrice = ($oldQuantity - 1) * $price;
-                        $UpdateOrder = OrderDetail::updateCart($newId, ($oldQuantity - 1), $newTolalPrice);
+                        $UpdateOrder = OrderDetail::updateCart($orderId, $newId, ($oldQuantity - 1), $newTolalPrice);
                     }
                     break;
                 case 'p':
-                    $getOrder_ByProductId = OrderDetail::getOrder_ByProductId($newId);
+                    $getOrder_ByProductId = OrderDetail::getOrder_Product($newId, $orderId);
                     $oldPrice = $getOrder_ByProductId[0]['price'];
                     $oldQuantity = $getOrder_ByProductId[0]['quantity'];
                     $totalPrice = $oldQuantity * $product1['price'];
                     $newTolalPrice = $oldPrice + $totalPrice;
                     $newQuantity = $oldQuantity + 1;
-                    $UpdateOrder = OrderDetail::updateCart($newId, $newQuantity, $newTolalPrice);
+                    $UpdateOrder = OrderDetail::updateCart($orderId, $newId, $newQuantity, $newTolalPrice);
                     break;
                 default:
                     break;
@@ -65,17 +65,20 @@ if (isset($_SESSION['isLogin']['User'])) {
             if (isset($_GET['quantity'])) {
                 $number_Quantity = $_GET['quantity'];
             }
-            $getOrder_ByProductId = OrderDetail::getOrder_ByProductId($id);
-            if (count($getOrder_ByProductId) == 0) {
+            $getOrder_Product = OrderDetail::getOrder_Product($id, $orderId);
+            var_dump($getOrder_Product);
+            if (count($getOrder_Product) == 0) {
                 $totalPrice = $number_Quantity * $product['price'];
                 $newOrder = OrderDetail::insertOrder($orderId, $id, $number_Quantity, $totalPrice);
+                echo "1";
             } else {
-                $oldPrice = $getOrder_ByProductId[0]['price'];
-                $oldQuantity = $getOrder_ByProductId[0]['quantity'];
+                $oldPrice = $getOrder_Product[0]['price'];
+                $oldQuantity = $getOrder_Product[0]['quantity'];
                 $totalPrice = $number_Quantity * $product['price'];
                 $newTolalPrice = $oldPrice + $totalPrice;
                 $newQuantity = $oldQuantity + $number_Quantity;
-                $UpdateOrder = OrderDetail::updateCart($id, $newQuantity, $newTolalPrice);
+                $UpdateOrder = OrderDetail::updateCart($orderId, $id, $newQuantity, $newTolalPrice);
+                echo "2";
             }
             header('location:' . $_SERVER['HTTP_REFERER']);
         }

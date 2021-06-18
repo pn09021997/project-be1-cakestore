@@ -1,42 +1,22 @@
 <?php
-class User extends Db {
-    //LOGIN.
-    public function login($username) {
-        $sql = self::$connection->prepare("SELECT * FROM users where username = ? ");
-        $sql->bind_param("s",$username);//return an object
-        $sql->execute();//return an object
-        $items = array();
-        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
-        return $items; //return an array
-    }
-    
-    public function getUserLogin($username, $permission)
-    {
-        //2. Viết câu SQL
-        $sql = parent::$connection->prepare("SELECT * FROM users WHERE permission = ? AND username = ?");
-        $sql->bind_param('ss', $permission, $username);
-        $sql->execute();//return an object
-        $items = array();
-        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
-        return $items; //return an array
-    }
+class Manufacturer extends Db {
     /**____________________________________________________________________________________________________
-     * LẤY DỮ LIỆU BẢNG users:
+     * LẤY DỮ LIỆU BẢNG manufacturers :
      */
-    //Lấy danh sách tất cả user:
-    static function getAllUsers() {
-        $sql = self::$connection->prepare("SELECT * FROM users");
+    //Lấy danh sách tất cả manufacture:
+    static function getAllManufacturers() {
+        $sql = self::$connection->prepare(" SELECT * FROM manufactures ");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
         return $items; //return an array.
     }
-    //Lấy danh sách tất cả user và Phân trang:
-    static function getAllUsers_andCreatePagination($page, $resultsPerPage) {
+    //Lấy danh sách tất cả manufacturer và Phân trang:
+    static function getAllManufacturers_andCreatePagination($page, $resultsPerPage) {
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM users LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM manufactures  order by manu_id desc LIMIT $firstLink, $resultsPerPage");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -45,44 +25,44 @@ class User extends Db {
 
 
     /**____________________________________________________________________________________________________
-     * XÓA User THEO id:
+     * LẤY Manufacturer THEO id:
      */
-    static function deleteUserByID($id) {
-        $sql = self::$connection->prepare("DELETE FROM users WHERE id = ? and permission = 'User'");
-        $sql->bind_param("i", $id);
+    static function getBrand($manu_id) {
+        $sql = self::$connection->prepare("SELECT * FROM manufactures  WHERE manu_id = ?");
+        $sql->bind_param("i", $manu_id);
         $sql->execute();
+        $brand = $sql->get_result()->fetch_assoc();
+        return $brand['manu_name'];
     }
 
-        /**____________________________________________________________________________________________________
-     * Lấy User THEO id:
-     */
-    static function getUserName($id) {
-        $sql = self::$connection->prepare("SELECT * FROM users WHERE id = ?");
-        $sql->bind_param("i", $id);
-        $sql->execute();
-        $item = $sql->get_result()->fetch_assoc();
-        return $item;
-    }
+
 
     /**____________________________________________________________________________________________________
-     * SỬA USER:
+     * XÓA Manufacturer THEO id:
      */
-    static function updateUser($id, $username, $password, $permission) {
-        $sql = self::$connection->prepare("UPDATE users SET `username`=?,`password`=?,`permission`=? WHERE id=?");
-        $sql->bind_param("sssi", $username, $password, $permission, $id);
+    static function deleteManufactureByID($manu_id) {
+        $sql = self::$connection->prepare("DELETE FROM manufactures  WHERE manu_id = ?");
+        $sql->bind_param("i", $manu_id);
+        $sql->execute();
+    }
+
+
+
+    /**____________________________________________________________________________________________________
+     * THÊM Manufacturer:
+     */
+    static function insertManufacturer($manu_name) {
+        $sql = self::$connection->prepare("INSERT INTO manufactures (manu_id, manu_name) VALUES(0, '$manu_name')");
         return $sql->execute();
     }
 
 
 
-
     /**____________________________________________________________________________________________________
-     * THÊM User:
+     * SỬA MANU:
      */
-    static function insertUser($username, $password, $role) {
-        $sql = self::$connection->prepare("INSERT INTO `users`(`id`, `username`, `password`, `permission`)
-        VALUES (NULL, ?, ?, ?)");
-        $sql->bind_param("sss", $username, $password, $role);
+    static function updateManufacturer($manu_id, $manu_name) {
+        $sql = self::$connection->prepare("UPDATE manufactures  SET manu_name='$manu_name' WHERE manu_id=$manu_id");
         return $sql->execute();
     }
 
@@ -133,20 +113,19 @@ class User extends Db {
         return $firstLink . $prevLink . $links . $nextLink . $lastLink;
     }
 
-    static function searchUser($keyword)
-    {
-        $sql = self::$connection->prepare("SELECT * FROM users WHERE username like '%$keyword%'");
+    static function searchManufacture($keyword) {
+        $sql = self::$connection->prepare("SELECT * FROM manufactures WHERE manu_name like '%$keyword%'");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
         return $items; //return an array.
     }
 
-    static function searchUser_andCreatePagination($keyword, $page, $resultsPerPage) {
+    static function searchManufacture_andCreatePagination($keyword, $page, $resultsPerPage) {
         //Tính xem nên bắt đầu hiển thị từ trang có số thứ tự là bao nhiêu:
         $firstLink = ($page - 1) * $resultsPerPage; //(Trang hiện tại - 1) * (Số kết quả hiển thị trên 1 trang).
         //Dùng LIMIT để giới hạn số lượng kết quả được hiển thị trên 1 trang:
-        $sql = self::$connection->prepare("SELECT * FROM users WHERE username like '%$keyword%' LIMIT $firstLink, $resultsPerPage");
+        $sql = self::$connection->prepare("SELECT * FROM manufactures WHERE manu_name like '%$keyword%' LIMIT $firstLink, $resultsPerPage");
         $sql->execute();
         $items = array();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);

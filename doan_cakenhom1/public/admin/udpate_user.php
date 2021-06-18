@@ -25,7 +25,7 @@ if (isset($_GET['id']) && isset($_GET['username']) && isset($_GET['newpassword']
         header("Location: form_update.php?functionType=user&id=" . $_GET['id'] . "&updateResult=$updateResult");
     } else {
         if ($new_Password == $confirm_Password) {
-            $updateResult = User::updateUser($id, $username, $new_Password, $permission);
+            $updateResult = User::updateUser($id, $username, md5($new_Password), $permission);
         }
         header("Location: form_update.php?functionType=user&id=" . $_GET['id'] . "&updateResult=$updateResult");
     }

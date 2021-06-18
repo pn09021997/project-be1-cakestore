@@ -46,12 +46,14 @@ require_once 'header.php' ?>
                                 if (isset($_GET['page']) == TRUE) {
                                     $page = $_GET['page'];
                                 }
+                                $list_of_products = Product::getAllProducts_andCreatePagination($page, $resultsPerPage);
+                                $totalResults = count(Product::getAllProducts());
                                 if (isset($_GET['keyword'])) {
-                                    $list_of_products = Product::searchProduct_andCreatePagination($_GET['keyword'], $page, $resultsPerPage);
-                                    $totalResults = count(Product::searchProduct($_GET['keyword']));
-                                } else {
-                                    $list_of_products = Product::getAllProducts_andCreatePagination($page, $resultsPerPage);
-                                    $totalResults = count(Product::getAllProducts());
+                                    $keyWord = $_GET['keyword'];
+                                    if ($keyWord != ' ') {
+                                        $list_of_products = Product::searchProduct_andCreatePagination($_GET['keyword'], $page, $resultsPerPage);
+                                        $totalResults = count(Product::searchProduct($_GET['keyword']));
+                                    } 
                                 }
                                 // Output:
                                 echo "<p style=\"text-align:center;\"><b>There are $totalResults results.</b></p>";
@@ -65,7 +67,7 @@ require_once 'header.php' ?>
                                         <td><?php echo Manufacturer::getBrand($value['manu_id']); ?></td>
                                         <td><?php echo Protype::getTypeName($value['type_id']); ?></td>
                                         <td><?php echo $value['description']; ?></td>
-                                        <td><?php echo $value['price']; ?></td>
+                                        <td><?php echo number_format($value['price']); ?></td>
                                         <td><?php echo $value['feature']; ?></td>
                                         <td><?php echo $value['created_at']; ?></td>
                                         <td>

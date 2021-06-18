@@ -1,5 +1,6 @@
 <!--================Main Header Area =================-->
 <?php
+session_start();
 require_once "navbar_header.php";
 ?>
 <!--================End Main Header Area =================-->
