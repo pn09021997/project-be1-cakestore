@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th6 12, 2021 lúc 09:47 AM
--- Phiên bản máy phục vụ: 5.7.31-log
--- Phiên bản PHP: 7.3.21
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th6 18, 2021 lúc 04:58 AM
+-- Phiên bản máy phục vụ: 10.4.14-MariaDB
+-- Phiên bản PHP: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,12 +27,10 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `manufactures`
 --
 
-DROP TABLE IF EXISTS `manufactures`;
-CREATE TABLE IF NOT EXISTS `manufactures` (
-  `manu_id` int(11) NOT NULL AUTO_INCREMENT,
-  `manu_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`manu_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `manufactures` (
+  `manu_id` int(11) NOT NULL,
+  `manu_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `manufactures`
@@ -49,12 +47,43 @@ INSERT INTO `manufactures` (`manu_id`, `manu_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `customerid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `orders`
+--
+
+INSERT INTO `orders` (`id`, `created_at`, `customerid`) VALUES
+(4, '2021-06-18 05:46:09', 22);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `ordersdetail`
+--
+
+CREATE TABLE `ordersdetail` (
+  `orderid` int(11) NOT NULL,
+  `productid` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `products`
 --
 
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE IF NOT EXISTS `products` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `manu_id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
@@ -62,9 +91,8 @@ CREATE TABLE IF NOT EXISTS `products` (
   `pro_image` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `feature` tinyint(4) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
@@ -80,7 +108,7 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `pro_image`
 (89, 'dqad', 1, 1, 12000, 'c-feature-8.jpg', 'not value', 1, '2021-05-22 06:47:38'),
 (90, 'banh', 1, 0, 130000, 'c-feature-9.jpg', 'ewtgrewg', 1, '2021-05-22 06:47:38'),
 (91, 'dqad', 1, 1, 12000, 'c-feature-8.jpg', 'not value', 1, '2021-05-22 06:47:41'),
-(92, 'banh', 1, 0, 130000, 'c-feature-9.jpg', 'ewtgrewg', 1, '2021-05-22 06:47:41'),
+(92, 'banh', 1, 4, 130000, 'arivals-1.jpg', 'ewtgrewg', 1, '2021-06-14 00:00:03'),
 (69, 'Banh dau kem pho mai', 1, 1, 17490000, 'c-feature-7.jpg', 'Bánh chứa hương vị đặc biệt của vị socola', 0, '2021-05-22 01:18:39'),
 (100, 'Bánh flan', 5, 2, 25000, 'flan2.jpg', 'Loại bánh được chế biến từ việc hấp chín với các nguyên liệu chính là trứng và sữa, nước caramen được gọi là bánh flan', 1, '2021-05-30 04:57:07'),
 (101, 'Bánh Donut', 1, 2, 89000, 'ngot1.png', 'Bánh Donut được làm bằng socola, đường, kẹo, hạt hạnh nhân...với nhiều màu sắc bắt mắt.', 0, '2021-05-30 05:03:51'),
@@ -96,7 +124,8 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `pro_image`
 (112, 'Bánh Chiffon', 4, 3, 169000, 'cara1.jpg', 'Bánh chiffon có sử dụng dầu ăn để làm thành phần chất béo trong bánh. Cả lòng trắng và lòng đỏ đều được sử dụng nhưng tách riêng trong quá trình làm.', 1, '2021-05-30 05:28:37'),
 (113, 'Bánh Flan Dâu Tằm', 3, 4, 35000, 'flan2.jpg', 'bánh được hấp chín từ các nguyên liệu chính là trứng, sữa và hương thơm của dâu tằm', 1, '2021-05-30 05:33:27'),
 (114, 'Bánh Makowiec', 4, 4, 180000, 'trangmieng1.jpg', 'Makowiec là một loại bánh cuộn men ngọt được làm bằng hạt hoa anh túc và có khi cũng được phủ bằng kem.', 0, '2021-05-30 05:36:52'),
-(115, 'Bánh Brigadeiros', 4, 3, 65000, 'trangmieng2.jpg', 'Brigadeiros là món tráng miệng được chế biến bằng socola bột, sữa đặc và bơ. Bánh có thể được ăn như một khối hỗn hợp nấu chín hoặc có khi được đúc thành từng quả bóng tròn nhỏ bọc đường hạt bên ngoài.', 1, '2021-05-30 05:38:36');
+(115, 'Bánh Brigadeiros', 4, 3, 65000, 'trangmieng2.jpg', 'Brigadeiros là món tráng miệng được chế biến bằng socola bột, sữa đặc và bơ. Bánh có thể được ăn như một khối hỗn hợp nấu chín hoặc có khi được đúc thành từng quả bóng tròn nhỏ bọc đường hạt bên ngoài.', 1, '2021-05-30 05:38:36'),
+(123, 'Phương Nguyễn', 1, 1, 123, 'street_city_movement_135248.jpg-1920x1080.jpg', '123', 1, '2021-06-16 17:38:43');
 
 -- --------------------------------------------------------
 
@@ -104,12 +133,10 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `pro_image`
 -- Cấu trúc bảng cho bảng `protypes`
 --
 
-DROP TABLE IF EXISTS `protypes`;
-CREATE TABLE IF NOT EXISTS `protypes` (
-  `type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`type_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `protypes` (
+  `type_id` int(11) NOT NULL,
+  `type_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `protypes`
@@ -127,26 +154,29 @@ INSERT INTO `protypes` (`type_id`, `type_name`) VALUES
 -- Cấu trúc bảng cho bảng `reviews`
 --
 
-DROP TABLE IF EXISTS `reviews`;
-CREATE TABLE IF NOT EXISTS `reviews` (
-  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `reviews` (
+  `review_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `reviewer_name` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `reviewer_email` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `content` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`review_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `reviews`
 --
 
-INSERT INTO `reviews` (`review_id`, `product_id`, `reviewer_name`, `reviewer_email`, `content`) VALUES
-(1, 12, 'viet nguyen', 'vietnguyen@gmail.com', 'Banh tam chap nhan duọc'),
-(2, 115, 'cfsf', 'fdsf@gmail.com', 'fdsf'),
-(3, 115, 'gdsg', 'fdsf@gmail.com', 'gdfg'),
-(4, 115, 'Nguyen Quoc Viet', 'nguyenquocviet@gmail.com', 'Banh rất là ngon cảm thấy hài lòng'),
-(5, 115, 'kha như', 'khanuh@gmail.com', 'Tôi thấy bánh ở đây ngon bổ rẻ');
+INSERT INTO `reviews` (`review_id`, `product_id`, `reviewer_name`, `reviewer_email`, `content`, `created_at`) VALUES
+(1, 123, 'viet nguyen', 'vietnguyen@gmail.com', 'Banh tam chap nhan duọc', '2021-06-17 00:00:00'),
+(2, 115, 'cfsf', 'fdsf@gmail.com', 'fdsf', '2021-06-17 00:00:00'),
+(3, 115, 'gdsg', 'fdsf@gmail.com', 'gdfg', '2021-06-17 00:00:00'),
+(4, 115, 'Nguyen Quoc Viet', 'nguyenquocviet@gmail.com', 'Banh rất là ngon cảm thấy hài lòng', '2021-06-17 00:00:00'),
+(5, 115, 'kha như', 'khanuh@gmail.com', 'Tôi thấy bánh ở đây ngon bổ rẻ', '2021-06-17 00:00:00'),
+(6, 123, 'phuong123', '123', '1', '2021-06-17 10:38:33'),
+(7, 123, 'phuong123', 'phuong@gmail.com', 'asdad', '2021-06-17 10:50:11'),
+(8, 123, 'phuong', '', '123', '2021-06-17 11:04:22'),
+(9, 123, 'phuong123', 'phuong@gmail.com', 'udpate ', '2021-06-17 18:44:07');
 
 -- --------------------------------------------------------
 
@@ -154,22 +184,103 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `reviewer_name`, `reviewer_ema
 -- Cấu trúc bảng cho bảng `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
   `username` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `permission` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `permission` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `permission`) VALUES
-(7, 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'User'),
-(2, 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin');
+(7, 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'admin'),
+(2, 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin'),
+(9, '213', '202cb962ac59075b964b07152d234b70', 'User'),
+(10, 'phuong', '202cb962ac59075b964b07152d234b70', 'User'),
+(22, 'phuong123', '202cb962ac59075b964b07152d234b70', 'User');
+
+--
+-- Chỉ mục cho các bảng đã đổ
+--
+
+--
+-- Chỉ mục cho bảng `manufactures`
+--
+ALTER TABLE `manufactures`
+  ADD PRIMARY KEY (`manu_id`);
+
+--
+-- Chỉ mục cho bảng `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `protypes`
+--
+ALTER TABLE `protypes`
+  ADD PRIMARY KEY (`type_id`);
+
+--
+-- Chỉ mục cho bảng `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`review_id`);
+
+--
+-- Chỉ mục cho bảng `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `manufactures`
+--
+ALTER TABLE `manufactures`
+  MODIFY `manu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+
+--
+-- AUTO_INCREMENT cho bảng `protypes`
+--
+ALTER TABLE `protypes`
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
