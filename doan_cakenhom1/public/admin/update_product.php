@@ -76,9 +76,8 @@ if ($changeImage == TRUE) {
     }
 }
 
-
+$updateResult = -1;
 if ($check_Upload) {
-    $updateResult = -1;
     if (
         isset($_POST['name'])
         && isset($_POST['type_id'])
@@ -100,6 +99,8 @@ if ($check_Upload) {
         $updateResult = Product::updateProduct($id, $name, $manu_id, $type_id, $price, $pro_image, $description, $feature, $create_at, $receipt);
         header("Location: form_update.php?functionType=products&id=$id&updateResult=$updateResult");
     } else {
-        echo "dads";
+        header("Location: form_update.php?functionType=products&id=$id&updateResult=$updateResult");
     }
 }
+header("Location:./index.php");
+

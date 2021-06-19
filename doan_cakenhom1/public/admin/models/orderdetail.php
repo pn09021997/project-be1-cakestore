@@ -21,7 +21,16 @@ class OrderDetail extends Db
         return $items; //return an array.
     }
 
-    
+    static function getOrder_ByProductId($productId)
+    {
+        $sql = self::$connection->prepare("SELECT * FROM ordersdetail WHERE productid = ?");
+        $sql->bind_param('i', $productId);
+        $sql->execute();
+        $items = array();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array.
+    }
+
     static function getOrder_Product($productId, $orderId)
     {
         $sql = self::$connection->prepare("SELECT * FROM ordersdetail WHERE productid = ? AND orderid = ?");
